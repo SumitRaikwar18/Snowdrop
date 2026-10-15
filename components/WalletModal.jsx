@@ -22,31 +22,21 @@ export default function WalletModal() {
 
   const wallets = [
     {
-      id: "metamask",
-      name: "MetaMask",
-      desc: "Connect via browser extension",
-      badge: "Real Fuji C-Chain",
-      icon: (
-        <span className="w-10 h-10 rounded-2xl bg-orange-50 border border-orange-100 flex items-center justify-center text-2xl shadow-xs">
-          🦊
-        </span>
-      ),
-    },
-    {
       id: "core",
       name: "Core Wallet",
-      desc: "Official Avalanche Web3 Wallet",
+      desc: "Official Avalanche Web3 Wallet by Ava Labs",
       badge: "Avalanche Native",
       icon: (
         <span className="w-10 h-10 rounded-2xl bg-red-50 border border-red-100 flex items-center justify-center text-2xl shadow-xs">
           🔺
         </span>
       ),
+      isPrimary: true,
     },
     {
       id: "injected",
-      name: "Browser Wallet",
-      desc: "Rabby, Brave, Coinbase, Rainbow",
+      name: "Browser Extension",
+      desc: "Connect any Avalanche-compatible browser wallet",
       badge: "EIP-1193",
       icon: (
         <span className="w-10 h-10 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-2xl shadow-xs">
@@ -102,17 +92,27 @@ export default function WalletModal() {
             </div>
             <div className="flex items-center gap-3 pt-1 border-t border-amber-200/60 text-xs">
               <button
-                onClick={() => connectWallet("metamask")}
+                onClick={() => connectWallet("core")}
                 className="font-semibold text-amber-800 hover:underline"
               >
-                Retry MetaMask
+                Retry Core Wallet
               </button>
+              <span className="text-amber-300">•</span>
+              <a
+                href="https://core.app"
+                target="_blank"
+                rel="noreferrer"
+                className="font-semibold text-red-600 hover:underline inline-flex items-center gap-0.5"
+              >
+                <span>Install Core (core.app)</span>
+                <ExternalLink className="w-3 h-3" />
+              </a>
               <span className="text-amber-300">•</span>
               <button
                 onClick={connectMockFallback}
                 className="font-semibold text-amber-800 hover:underline"
               >
-                Use Instant Demo Wallet
+                Use Demo
               </button>
             </div>
           </div>
@@ -125,7 +125,11 @@ export default function WalletModal() {
               key={w.id}
               onClick={() => connectWallet(w.id)}
               disabled={connecting}
-              className="w-full flex items-center justify-between p-3.5 rounded-2xl border border-gray-100 hover:border-blue-200 hover:bg-blue-50/40 active:bg-blue-100/50 transition-all text-left group"
+              className={`w-full flex items-center justify-between p-3.5 rounded-2xl border transition-all text-left group ${
+                w.isPrimary
+                  ? "border-red-200/80 bg-red-50/20 hover:border-red-300 hover:bg-red-50/40"
+                  : "border-gray-100 hover:border-blue-200 hover:bg-blue-50/40"
+              } active:scale-[0.99]`}
             >
               <div className="flex items-center gap-3">
                 {w.icon}
@@ -134,7 +138,13 @@ export default function WalletModal() {
                     <span className="font-bold text-sm text-navy-900 group-hover:text-blue-900 transition-colors">
                       {w.name}
                     </span>
-                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700">
+                    <span
+                      className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
+                        w.isPrimary
+                          ? "bg-red-100/70 text-red-700 border border-red-200/50"
+                          : "bg-blue-50 text-blue-700"
+                      }`}
+                    >
                       {w.badge}
                     </span>
                   </div>
@@ -143,7 +153,7 @@ export default function WalletModal() {
                   </p>
                 </div>
               </div>
-              <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-blue-600 group-hover:translate-x-0.5 transition-all" />
+              <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-red-500 group-hover:translate-x-0.5 transition-all" />
             </button>
           ))}
         </div>

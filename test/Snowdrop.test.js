@@ -8,7 +8,7 @@ describe("Snowdrop Smart Contract", function () {
 
   beforeEach(async function () {
     [owner, alice, bob, charlie, dave] = await ethers.getSigners();
-    const Snowdrop = await ethers.getContractFactory("Snowdrop");
+    const Snowdrop = await ethers.getContractFactory("contracts/Snowdrop.sol:Snowdrop");
     snowdrop = await Snowdrop.deploy();
     await snowdrop.waitForDeployment();
   });

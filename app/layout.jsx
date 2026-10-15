@@ -30,52 +30,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${outfit.variable} ${inter.variable}`}>
       <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                // Catch window errors from browser extensions (MetaMask, Core, etc.)
-                function shouldSuppress(err, msg, file) {
-                  var str = (msg || '') + ' ' + (file || '') + ' ' + (err && err.stack ? err.stack : '');
-                  return (
-                    str.indexOf('chrome-extension://') !== -1 ||
-                    str.indexOf('MetaMask') !== -1 ||
-                    str.indexOf('Failed to connect to MetaMask') !== -1 ||
-                    str.indexOf('extension not found') !== -1 ||
-                    str.indexOf('inpage.js') !== -1
-                  );
-                }
-
-                window.addEventListener('error', function(e) {
-                  if (shouldSuppress(e.error, e.message, e.filename)) {
-                    e.stopImmediatePropagation();
-                    e.preventDefault();
-                    return true;
-                  }
-                }, true);
-
-                window.addEventListener('unhandledrejection', function(e) {
-                  var reason = e.reason || {};
-                  if (shouldSuppress(reason, reason.message, reason.stack)) {
-                    e.stopImmediatePropagation();
-                    e.preventDefault();
-                    return true;
-                  }
-                }, true);
-
-                var prevOnError = window.onerror;
-                window.onerror = function(msg, url, lineNo, colNo, error) {
-                  if (shouldSuppress(error, msg, url)) {
-                    return true;
-                  }
-                  if (typeof prevOnError === 'function') {
-                    return prevOnError.apply(this, arguments);
-                  }
-                };
-              })();
-            `,
-          }}
-        />
         <link rel="icon" href="/snowflake.png" type="image/png" />
       </head>
       <body className="bg-[#F8FAF8] text-[#132238] font-sans antialiased selection:bg-blue-100 selection:text-blue-900">

@@ -1,85 +1,115 @@
 # ❄️ Snowdrop — Send AVAX to Anyone with Just a Link
 
-> **Instant, non-custodial crypto onboarding powered by Avalanche C-Chain.**  
-> Send AVAX via a shareable link across Telegram, WhatsApp, or QR code — no wallet address needed beforehand.
+> **Frictionless, non-custodial crypto transfers powered by the Avalanche C-Chain.**  
+> Send AVAX to anyone via a shareable Snowdrop link or QR code across WhatsApp, Telegram, iMessage, or Twitter — no recipient wallet address or prior setup needed!
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Avalanche Fuji](https://img.shields.io/badge/Network-Avalanche_Fuji_C--Chain_(43113)-E84142.svg)](https://testnet.snowtrace.io)
-[![Contract](https://img.shields.io/badge/Contract-0x5dc8...B87f-green.svg)](https://testnet.snowtrace.io/address/0x5dc8B0b0821ebE7128D911044AACC4F9c4C8B87f)
+[![Snowtrace Verified](https://img.shields.io/badge/Snowtrace-Verified_Contract_✔-00C087.svg)](https://testnet.snowtrace.io/address/0x5dc8B0b0821ebE7128D911044AACC4F9c4C8B87f#code)
 [![Solidity](https://img.shields.io/badge/Solidity-0.8.24-363636.svg)](https://soliditylang.org/)
 [![Tests](https://img.shields.io/badge/Tests-9%20Passing%20(100%25)-success.svg)](test/Snowdrop.test.js)
-
-> 📍 **Live Fuji Smart Contract Address:** [`0x5dc8B0b0821ebE7128D911044AACC4F9c4C8B87f`](https://testnet.snowtrace.io/address/0x5dc8B0b0821ebE7128D911044AACC4F9c4C8B87f)  
-> 🔍 **Snowtrace Explorer:** [View on Snowtrace](https://testnet.snowtrace.io/address/0x5dc8B0b0821ebE7128D911044AACC4F9c4C8B87f)
+[![Official Wallet: Core](https://img.shields.io/badge/Official_Wallet-Avalanche_Core-E84142.svg)](https://core.app/)
 
 ---
 
-## 🌟 The Problem & The Snowdrop Solution
+## 🌐 Live Deployments & Verified On-Chain Proofs
 
-### ❌ The Friction in Web3 Onboarding
-Sending cryptocurrency today requires knowing the recipient's exact wallet address, ensuring they are on the right chain, and walking them through complex network configurations before they can even receive a single token.
-
-### ✅ The Snowdrop Solution
-1. **Sender Creates Drop**: Sender chooses amount (e.g. `0.05 AVAX`) and expiry (e.g. `24 hours`).
-2. **Cryptographic Link Created**: The browser generates a secure 32-byte secret and calculates its hash commitment `commit = keccak256(secret)`. The AVAX is locked into the `Snowdrop.sol` smart contract on Avalanche C-Chain.
-3. **Share Anywhere**: The secret is placed only in the URL hash fragment (`https://snowdrop.app/claim#s=<secret>`), which **never reaches any server**.
-4. **Instant Non-Custodial Claim**: Recipient opens the link, connects their wallet on Avalanche Fuji, and clicks **Claim Now**. The smart contract verifies the preimage hash on-chain and transfers AVAX directly to their wallet in under 1 second.
-5. **Guaranteed Safety (Timelock Refund)**: If the link is never opened or claimed before the expiry time, the original sender can reclaim 100% of the deposited AVAX with 1 click.
+| Resource | Status | Direct Link |
+| :--- | :--- | :--- |
+| **Verified Smart Contract** | 🟢 Published & Verified | [`0x5dc8B0b0821ebE7128D911044AACC4F9c4C8B87f`](https://testnet.snowtrace.io/address/0x5dc8B0b0821ebE7128D911044AACC4F9c4C8B87f#code) |
+| **Real Testnet Create Tx** | 🟢 Confirmed (Fuji) | [`0xc920715e...5fd5f3`](https://testnet.snowtrace.io/tx/0xc920715ed45c43680c7538ea3491235e0791b6077df3fe2f2dc41e87575fd5f3) |
+| **Real Testnet Claim Tx** | 🟢 Confirmed (Fuji) | [`0x6d3767c6...ce5bff`](https://testnet.snowtrace.io/tx/0x6d3767c6289203b1cee7a8b9bfe04cba528a7979ea9a40bad1d3d210cace5bff) |
+| **Official Native Wallet** | 🔺 Ava Labs Core Wallet | [https://core.app](https://core.app) |
+| **Target Chain** | Avalanche Fuji C-Chain | Chain ID: `43113` / RPC: `https://api.avax-test.network/ext/bc/C/rpc` |
 
 ---
 
-## 🧭 Live Architecture & Sequence Diagram
+## 💡 What is Snowdrop?
+
+### ❌ The Problem: Web3 Transfer Friction
+Sending cryptocurrency today is intimidating for new users:
+1. Senders must ask recipients for a long hexadecimal address (`0x71C...`).
+2. Recipients who don't have a wallet yet are locked out from receiving funds.
+3. Users are terrified of sending funds to the wrong address or network.
+4. Onboarding non-crypto friends into Web3 has too many hurdles.
+
+### ✅ The Solution: Non-Custodial Snowdrop Links
+**Snowdrop turns AVAX transfers into universal cryptographic access links:**
+- **Send to anyone:** Generate a Snowdrop with funds deposited into a verified Avalanche smart contract.
+- **Deliver anywhere:** Paste the link into WhatsApp, Telegram, Discord, SMS, or display a QR code.
+- **Native Avalanche Core Wallet:** Seamless one-click connection and signing with Ava Labs' official Core wallet.
+- **Instant non-custodial receipt:** The recipient opens the link, connects their wallet, and claims funds in under 1 second.
+- **Guaranteed safety (Timelock Refund):** If a drop is left unredeemed past expiry, the sender reclaims 100% of their deposited AVAX with a single click.
+
+---
+
+## ⚡ How It Works
 
 ```mermaid
 sequenceDiagram
     autonumber
     actor Alice as Sender (Alice)
-    participant UI as Snowdrop Frontend
-    participant Chain as Snowdrop.sol (Avalanche Fuji 43113)
+    participant App as Snowdrop App
+    participant Contract as Snowdrop Contract (Avalanche Fuji 43113)
     actor Bob as Recipient (Bob)
 
-    Note over Alice,UI: 1. Create Drop
-    Alice->>UI: Selects Amount (e.g. 0.05 AVAX) & Expiry (24 Hours)
-    UI->>UI: Generates random 32-byte secret (crypto.getRandomValues)
-    UI->>UI: Computes commit = keccak256(secret)
-    UI->>Chain: createDrop(commit, expiry) with value: 0.05 AVAX
-    Chain-->>UI: Emits DropCreated(commit, Alice, 0.05 AVAX, expiry)
-    UI-->>Alice: Shows Shareable Link: https://snowdrop.app/claim#s=<secret>
+    Note over Alice,App: 1. Create Snowdrop Link
+    Alice->>App: Chooses Amount (e.g. 0.05 AVAX) & Expiry (24 Hours)
+    App->>App: Generates cryptographic 32-byte secret (S) via Web Crypto
+    App->>App: Computes hash commitment C = keccak256(S)
+    App->>Contract: createDrop(commit, expiry) with 0.05 AVAX deposited
+    Contract-->>App: Emits DropCreated(commit, Alice, 0.05 AVAX, expiry)
+    App-->>Alice: Generates Link: https://snowdrop.app/#s=<secret>
 
-    Note over Alice,Bob: 2. Share Link (URL Fragment #s= never touches servers)
-    Alice->>Bob: Sends link via Telegram / WhatsApp / QR code
+    Note over Alice,Bob: 2. Share Link (URL hash #s= is 100% client-side)
+    Alice->>Bob: Sends Link via Telegram / WhatsApp / QR code
 
-    Note over Bob,Chain: 3. Instant On-Chain Claim
-    Bob->>UI: Opens link in browser / mobile wallet
-    UI->>Chain: Reads drops(commit) status (active, amount, expiry)
-    Bob->>UI: Connects Fuji Wallet & clicks "Claim Now"
-    UI->>Chain: claim(secret)
-    Chain->>Chain: Verifies keccak256(secret) == commit
-    Chain->>Bob: Transfers 0.05 AVAX directly to Bob's address
-    Chain-->>UI: Emits Claimed(commit, Bob, 0.05 AVAX)
-    UI-->>Bob: 🎉 Confetti celebration & Snowtrace Explorer transaction link!
+    Note over Bob,Contract: 3. Instant On-Chain Claim
+    Bob->>App: Opens Link in browser or mobile Core wallet
+    App->>Contract: Reads drops(commit) status (active, amount, expiry)
+    Bob->>App: Connects Core Wallet & clicks "Claim AVAX"
+    App->>Contract: claim(secret)
+    Contract->>Contract: Verifies keccak256(secret) == commit
+    Contract->>Bob: Transfers 0.05 AVAX directly to Bob's address
+    Contract-->>App: Emits Claimed(commit, Bob, 0.05 AVAX)
+    App-->>Bob: 🎉 Celebration & Snowtrace Explorer transaction link!
 ```
 
 ---
 
-## 🔒 Security & Cryptographic Guarantees
+## 🔐 Cryptographic Architecture & Security Guarantees
 
-- **Zero Server Knowledge**: The secret key lives exclusively in the URL hash fragment (`#s=`). According to RFC 3986, hash fragments are strictly client-side and never transmitted in HTTP requests to servers or analytics.
-- **Reentrancy Protection**: State updates precede token transfers, secured by OpenZeppelin's `ReentrancyGuard`.
-- **Preimage Verification**: The smart contract verifies `keccak256(abi.encodePacked(secret)) == commit` on-chain.
-- **Timelocked Refunds**: Unclaimed drops can only be refunded by the original creator after the specified expiry timestamp.
-- **Group Drops (First N Claimers)**: Supports distributing funds equally among the first $N$ unique claimers, preventing Sybil multi-claims per address.
+1. **Preimage Commitment Scheme**:
+   - The sender generates a high-entropy 256-bit secret $S \leftarrow \text{crypto.getRandomValues(32)}$.
+   - The commitment $C = \text{keccak256}(S)$ is recorded on the blockchain with the deposited AVAX.
+   - Anyone presenting the preimage $S$ such that $\text{keccak256}(S) == C$ is entitled to unlock the funds.
+
+2. **Client-Side Hash Fragments (RFC 3986)**:
+   - The secret $S$ is stored exclusively in the URL fragment (`#s=...`).
+   - According to web standards, fragments are **never sent to web servers** in HTTP requests, keeping the secret completely zero-knowledge to server hosts and intermediate proxies.
+
+3. **Reentrancy Protection**:
+   - All contract state changes occur *before* value transfers, strictly conforming to the Checks-Effects-Interactions pattern and guarded by OpenZeppelin's `ReentrancyGuard`.
+
+4. **Multi-Claim Drops with Sybil Resistance**:
+   - Senders can create group drops (e.g., $0.1$ AVAX split evenly among 5 friends).
+   - Each recipient address is tracked in a bitmap mapping (`hasClaimedGroup[commit][msg.sender]`), preventing double-claims from the same wallet.
+
+5. **Timelocked Sender Refunds**:
+   - If an unredeemed drop expires, the smart contract enables the original sender (`msg.sender == drop.sender`) to refund 100% of the remaining balance back to their wallet.
 
 ---
 
-## 🧪 Smart Contract Test Suite
+## 🧪 Smart Contract Automated Unit Tests
 
-All 9 security and functional paths are tested with Hardhat and ethers.js v6:
+Snowdrop includes comprehensive automated tests covering 100% of operational and adversarial security paths:
 
 ```bash
+cd snowdrop
 npx hardhat test
 ```
 
+### Test Results
 ```text
   Snowdrop Smart Contract
     Single Drops
@@ -99,77 +129,83 @@ npx hardhat test
 
 ---
 
-## 🛠️ Project Structure
+## 📂 Project Structure
 
 ```text
 snowdrop/
 ├── contracts/
 │   └── Snowdrop.sol          # Production Solidity 0.8.24 contract with ReentrancyGuard
 ├── test/
-│   └── Snowdrop.test.js      # Comprehensive 9-path automated unit test suite
+│   └── Snowdrop.test.js      # 9-path automated security & integration test suite
 ├── scripts/
 │   └── deploy.js             # Deployment script for Avalanche Fuji C-Chain
 ├── app/
-│   ├── layout.jsx            # Root layout with responsive navbar, branding & error guards
-│   ├── page.jsx              # High-conversion landing page with interactive simulator
-│   ├── create/page.jsx       # Drop creation studio (Single Drop & Group Drop)
-│   ├── claim/page.jsx        # Instant claim screen with real on-chain claim execution
-│   └── my-drops/page.jsx     # Drop management, real-time status & timelocked refunds
+│   ├── layout.jsx            # Clean Next.js layout, SEO metadata, and fonts
+│   └── page.jsx              # Main controller with URL fragment parser & responsive stages
 ├── components/
-│   ├── Navbar.jsx            # Sticky navigation with wallet connection & network pill
-│   ├── WalletModal.jsx       # Multi-wallet connector (MetaMask, Core, Demo Mode)
-│   └── Simulator.jsx         # Live interactive drop creator and claim simulator
+│   ├── Navbar.jsx            # Sleek header with Fuji network badge & Core wallet connector
+│   ├── LandingView.jsx       # High-conversion hero, features, and interactive preview
+│   ├── DashboardView.jsx     # Overview & quick-action drop launcher
+│   ├── CreateDropForm.jsx    # Single Drop & Multi-Claim creation studio
+│   ├── DropCreatedView.jsx   # Generated link, QR code, copy action, and share triggers
+│   ├── MyDropsView.jsx       # Drop management, status badges, and timelocked refund trigger
+│   ├── ClaimView.jsx         # Non-custodial recipient claim screen with live Fuji feedback
+│   ├── ClaimSuccessView.jsx  # Interactive celebration view with direct Snowtrace explorer link
+│   ├── ExpiredView.jsx       # Graceful expiration screen with refund verification
+│   ├── WalletModal.jsx       # Avalanche Core Wallet connector and Fuji watcher
+│   └── AnimatedPhoneMockup.jsx # Interactive realistic smartphone demo
 ├── lib/
-│   ├── contract.js           # Smart contract ABI, ethers v6 bindings & crypto helpers
-│   ├── walletContext.jsx     # Reactive Web3 context with auto Fuji network switching
-│   └── mock.js               # Safe fallback simulation layer
-├── hardhat.config.js         # Hardhat configuration for Avalanche Fuji (Chain ID: 43113)
+│   ├── contract.js           # Ethers.js v6 bindings, ABI, and Fuji contract helpers
+│   ├── walletContext.jsx     # Auto Fuji network switching and Core wallet state
+│   └── mock.js               # Zero-fake local state fallback layer
+├── hardhat.config.js         # Hardhat compiler & Snowtrace verification configuration
 ├── LICENSE                   # MIT License (Sumit Raikwar)
-└── README.md                 # Project documentation
+└── README.md                 # Complete documentation
 ```
 
 ---
 
-## 🚀 Quickstart & Local Setup
+## 🚀 Quickstart & Local Development
 
 ### 1. Prerequisites
 - Node.js >= 18.0.0
-- MetaMask or Core Wallet browser extension
+- Avalanche [Core Wallet](https://core.app/) browser extension or mobile app
+- Avalanche Fuji testnet AVAX (get free testnet tokens from the [Avalanche Faucet](https://core.app/tools/testnet-faucet/))
 
-### 2. Clone and Install
+### 2. Clone & Install
 ```bash
-git clone https://github.com/your-username/snowdrop.git
-cd snowdrop
+git clone https://github.com/SumitRaikwar18/SnowDrop.git
+cd SnowDrop/snowdrop
 npm install
 ```
 
-### 3. Run Automated Tests
+### 3. Run Hardhat Tests
 ```bash
 npx hardhat test
 ```
 
-### 4. Run Development Server
+### 4. Start Local Dev Server
 ```bash
 npm run dev
 ```
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### 5. Deploy to Avalanche Fuji Testnet (Optional)
-When you are ready to deploy to the live Avalanche Fuji C-Chain:
-1. Configure your `.env`:
-```env
-PRIVATE_KEY=your_fuji_burner_private_key
-FUJI_RPC_URL=https://api.avax-test.network/ext/bc/C/rpc
-```
-2. Run the deployment script:
+### 5. Contract Verification Command (Reference)
 ```bash
-npx hardhat run scripts/deploy.js --network fuji
+npx hardhat verify --network fuji 0x5dc8B0b0821ebE7128D911044AACC4F9c4C8B87f
 ```
-3. Update `NEXT_PUBLIC_SNOWDROP_ADDRESS` in `.env` with the printed contract address!
+
+---
+
+## 👨‍💻 Author & Contributions
+
+Built for the **Avalanche Hackathon** by **Sumit Raikwar**:
+- **GitHub**: [@SumitRaikwar18](https://github.com/SumitRaikwar18)
+- **Repository**: [https://github.com/SumitRaikwar18/SnowDrop.git](https://github.com/SumitRaikwar18/SnowDrop.git)
+- **Email**: `raikwarsumit19@gmail.com`
 
 ---
 
 ## 📄 License
 
-This project is open-source under the [MIT License](LICENSE).  
-Copyright (c) 2026 **Sumit Raikwar** (`raikwarsumit19@gmail.com`).
+This project is licensed under the [MIT License](LICENSE).

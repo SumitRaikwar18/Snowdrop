@@ -27,11 +27,11 @@ const WalletContext = createContext({
   refreshBalance: () => {},
 });
 
-// Helper to reliably find the right provider
-const getInjectedProvider = (type = "metamask") => {
+// Helper to reliably find Avalanche Core Wallet or Injected Provider
+const getInjectedProvider = (type = "core") => {
   if (typeof window === "undefined") return null;
 
-  // Core Wallet (Avalanche Native)
+  // 1. Core Wallet (Official Avalanche Web3 Wallet by Ava Labs)
   if (type === "core") {
     if (window.avalanche) return window.avalanche;
     if (window.ethereum?.isAvalanche) return window.ethereum;
@@ -39,20 +39,13 @@ const getInjectedProvider = (type = "metamask") => {
       const core = window.ethereum.providers.find((p) => p.isAvalanche);
       if (core) return core;
     }
+    // Also support injected browser provider (if Core is main injected provider)
+    if (window.ethereum) return window.ethereum;
   }
 
-  // MetaMask
-  if (type === "metamask") {
-    if (window.ethereum?.providers?.length) {
-      const mm = window.ethereum.providers.find((p) => p.isMetaMask);
-      if (mm) return mm;
-    }
-    if (window.ethereum?.isMetaMask) return window.ethereum;
-  }
-
-  // Generic Injected (Brave, Rabby, Coinbase, etc.)
-  if (window.ethereum) return window.ethereum;
+  // 2. Generic Injected Provider (Avalanche / EVM)
   if (window.avalanche) return window.avalanche;
+  if (window.ethereum) return window.ethereum;
 
   return null;
 };
@@ -152,7 +145,7 @@ export function WalletProvider({ children }) {
     const saved = localStorage.getItem("snowdrop_connected_account");
     if (saved && ethers.isAddress(saved)) {
       setAccount(saved);
-      const injected = getInjectedProvider("metamask") || getInjectedProvider("core");
+      const injected = getInjectedProvider("core");
       if (injected) {
         activeProviderRef.current = injected;
         const browserProvider = new ethers.BrowserProvider(injected);
@@ -174,7 +167,7 @@ export function WalletProvider({ children }) {
 
   // Listen for wallet account & chain changes
   useEffect(() => {
-    const prov = activeProviderRef.current || getInjectedProvider("metamask");
+    const prov = activeProviderRef.current || getInjectedProvider("core");
     if (!prov || typeof prov.on !== "function") return;
 
     const handleAccountsChanged = (accounts) => {
@@ -218,9 +211,9 @@ export function WalletProvider({ children }) {
   const clearWalletError = () => setWalletError(null);
 
   /**
-   * Connect Live Web3 Wallet (MetaMask, Core, or Injected)
+   * Connect Live Web3 Wallet (Core Wallet Native or Injected)
    */
-  const connectWallet = async (walletType = "metamask") => {
+  const connectWallet = async (walletType = "core") => {
     setWalletError(null);
     setConnecting(true);
 
@@ -228,9 +221,8 @@ export function WalletProvider({ children }) {
 
     if (!injected) {
       setConnecting(false);
-      const walletName = walletType === "core" ? "Core Wallet" : "MetaMask";
       setWalletError(
-        `${walletName} was not found in your browser. You can install ${walletName}, connect another wallet, or use a live Fuji address below.`
+        "Core Wallet was not detected in your browser. Core is the official Web3 wallet for Avalanche. You can install Core from https://core.app or connect a test account below."
       );
       return;
     }

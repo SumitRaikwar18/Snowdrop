@@ -11,7 +11,7 @@ async function main() {
   const balance = await hre.ethers.provider.getBalance(deployer.address);
   console.log("Account balance:", hre.ethers.formatEther(balance), "AVAX");
 
-  const Snowdrop = await hre.ethers.getContractFactory("Snowdrop");
+  const Snowdrop = await hre.ethers.getContractFactory("contracts/Snowdrop.sol:Snowdrop");
   console.log("Deploying Snowdrop to Avalanche Fuji (Chain ID: 43113)...");
   
   const snowdrop = await Snowdrop.deploy();
