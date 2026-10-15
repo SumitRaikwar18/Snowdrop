@@ -87,14 +87,14 @@ export default function AnimatedPhoneMockup() {
               {/* QR Code Container with clean padding */}
               <div className="p-2 bg-white rounded-xl border border-gray-150 shadow-2xs inline-block">
                 <QRCode
-                  value="https://snowdrop.app/claim#s=7f3c9e2184ad64b910486c231758ba1048e9c35b849103c829e8471b058a4a9e"
+                  value="https://snowdrop.sumitraikwar.me/claim#s=7f3c9e2184ad64b910486c231758ba1048e9c35b849103c829e8471b058a4a9e"
                   size={80}
                 />
               </div>
 
               {/* Copy link preview */}
               <div className="bg-gray-50 rounded-xl px-2.5 py-1.5 text-[9px] font-mono text-gray-500 border border-gray-200/60 flex items-center justify-between">
-                <span className="truncate max-w-[130px]">snowdrop.app/#s=7f3c...</span>
+                <span className="truncate max-w-[130px]">snowdrop.sumitraikwar.me/#s=...</span>
                 <span className="text-emerald-600 font-semibold font-sans text-[9px] flex items-center gap-0.5">
                   <Check className="w-2.5 h-2.5" /> Copied
                 </span>

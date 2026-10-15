@@ -16,6 +16,7 @@
 
 | Resource | Status | Direct Link |
 | :--- | :--- | :--- |
+| **Live Production dApp** | 🟢 Live & Operational | [https://snowdrop.sumitraikwar.me](https://snowdrop.sumitraikwar.me) |
 | **Verified Smart Contract** | 🟢 Published & Verified | [`0x5dc8B0b0821ebE7128D911044AACC4F9c4C8B87f`](https://testnet.snowtrace.io/address/0x5dc8B0b0821ebE7128D911044AACC4F9c4C8B87f#code) |
 | **Real Testnet Create Tx** | 🟢 Confirmed (Fuji) | [`0xc920715e...5fd5f3`](https://testnet.snowtrace.io/tx/0xc920715ed45c43680c7538ea3491235e0791b6077df3fe2f2dc41e87575fd5f3) |
 | **Real Testnet Claim Tx** | 🟢 Confirmed (Fuji) | [`0x6d3767c6...ce5bff`](https://testnet.snowtrace.io/tx/0x6d3767c6289203b1cee7a8b9bfe04cba528a7979ea9a40bad1d3d210cace5bff) |
@@ -59,7 +60,7 @@ sequenceDiagram
     App->>App: Computes hash commitment C = keccak256(S)
     App->>Contract: createDrop(commit, expiry) with 0.05 AVAX deposited
     Contract-->>App: Emits DropCreated(commit, Alice, 0.05 AVAX, expiry)
-    App-->>Alice: Generates Link: https://snowdrop.app/#s=<secret>
+    App-->>Alice: Generates Link: https://snowdrop.sumitraikwar.me/#s=<secret>
 
     Note over Alice,Bob: 2. Share Link (URL hash #s= is 100% client-side)
     Alice->>Bob: Sends Link via Telegram / WhatsApp / QR code

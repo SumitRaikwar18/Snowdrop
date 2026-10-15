@@ -28,12 +28,12 @@ export default function LandingView({ onNavigate }) {
   const { account, openWalletModal } = useWallet();
   const [copied, setCopied] = useState(false);
 
-  const sampleLink = "https://snowdrop.app/claim#s=7f3c...";
+  const sampleLink = "https://snowdrop.sumitraikwar.me/claim#s=7f3c...";
 
   const handleCopy = () => {
     if (typeof navigator !== "undefined" && navigator.clipboard) {
       navigator.clipboard.writeText(
-        "https://snowdrop.app/claim#s=7f3c9e2184ad64b910486c231758ba1048e9c35b849103c829e8471b058a4a9e"
+        "https://snowdrop.sumitraikwar.me/claim#s=7f3c9e2184ad64b910486c231758ba1048e9c35b849103c829e8471b058a4a9e"
       );
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
@@ -161,7 +161,7 @@ export default function LandingView({ onNavigate }) {
                   {/* QR Code Container */}
                   <div className="mt-4 p-3 bg-white rounded-2xl border border-gray-100 shadow-2xs flex items-center justify-center">
                     <QRCode
-                      value="https://snowdrop.app/claim#s=7f3c9e2184ad64b910486c231758ba1048e9c35b849103c829e8471b058a4a9e"
+                      value="https://snowdrop.sumitraikwar.me/claim#s=7f3c9e2184ad64b910486c231758ba1048e9c35b849103c829e8471b058a4a9e"
                       size={120}
                       style={{ height: "auto", maxWidth: "100%", width: "100%" }}
                       viewBox={`0 0 120 120`}
@@ -235,7 +235,7 @@ export default function LandingView({ onNavigate }) {
             </div>
 
             <div className="p-3 sm:p-3.5 bg-gray-50 rounded-2xl border border-gray-100 text-xs font-mono text-gray-400 flex items-center justify-between">
-              <span className="truncate">https://snowdrop.app/#s=...</span>
+              <span className="truncate">https://snowdrop.sumitraikwar.me/#s=...</span>
               <span className="text-emerald-600 font-sans font-bold text-xs ml-1">
                 Active
               </span>
@@ -373,7 +373,7 @@ export default function LandingView({ onNavigate }) {
             <div className="p-3.5 bg-emerald-50/50 rounded-2xl border border-emerald-100/80 font-mono text-xs space-y-1.5 text-emerald-900">
               <div className="flex items-center justify-between">
                 <span>URL Fragment</span>
-                <span className="font-bold truncate max-w-[170px]">https://snowdrop.app/#s=...</span>
+                <span className="font-bold truncate max-w-[170px]">https://snowdrop.sumitraikwar.me/#s=...</span>
               </div>
               <div className="flex items-center justify-between text-emerald-700">
                 <span>Server Traffic</span>
