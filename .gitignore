@@ -1,0 +1,7 @@
+.env
+node_modules
+.next
+cache
+artifacts
+*PRD*.md
+temp_images/
